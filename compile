@@ -1,0 +1,38 @@
+sudo -i
+mkdir -p out
+make O=out clean
+export KBUILD_COMPILER_STRING=$(/home/android/Desktop/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
+make O=out mrproper
+make O=out ARCH=arm64 whyred-perf_defconfig
+make -j$(nproc --all) O=out ARCH=arm64 CC="/home/android/Desktop/clang/bin/clang" CLANG_TRIPLE="aarch64-linux-gnu-" CROSS_COMPILE="/home/android/Desktop/tc/bin/aarch64-linux-android-"
+git remote add randomname github/link
+git fetch randomname
+git cherry-pick commitid
+git push
+zip -r9 putang-kernel-unleashed-.zip * -x README.md putang-kernel-unleashed-.zip
+zip -r9 putang-kernel-miui-X.zip * -x README.md putang-kernel-miui-X.zip
+
+UPSTREAM (on los 15.1 branch)
+git fetch update
+git merge linuxversion
+
+UPSTREAM (on your branch)
+git merge origin/lineagebranch
+git push origin branchname
+
+LOCAL PUSH
+git add /filepath/
+git commit -m "message"
+
+REVERT
+git revert commit
+git reset --hard commit (save)
+git push -f origin branchname
+
+branch
+git checkout -b branchname (new)
+git push origin branchname
+git push -u origin branchname
+git branch -m oldname newname
+git push origin :oldname newname
+git branch -d branchname (delete)
